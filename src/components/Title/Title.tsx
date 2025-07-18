@@ -6,6 +6,7 @@ const Title: React.FC<React.PropsWithChildren> = ({ children }) => {
       style={{
         fontSize: '20px',
         fontWeight: 500,
+        fontFamily: 'ProductSansM',
       }}
     >
       {children}

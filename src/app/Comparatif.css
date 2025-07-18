@@ -59,3 +59,35 @@
   font-family: 'ProductSansM';
   font-weight: 500;
 }
+
+.modal .search-bar {
+  width: 95%;
+  height: 50px;
+  border: 1px solid #e4e4e4;
+  border-radius: 25px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding-block: 10px;
+  padding-right: 10px;
+  padding-left: 20px;
+}
+
+.modal .search-bar input {
+  flex-grow: 1;
+  height: 100%;
+  font-size: 15px;
+  outline: none;
+  border: none;
+}
+
+.modal .grid-apparts {
+  width: 100%;
+  flex-grow: 1;
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 30px;
+  overflow-y: scroll;
+  padding-bottom: 20px;
+}

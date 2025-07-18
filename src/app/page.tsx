@@ -1,11 +1,14 @@
+'use client';
 import Title from '@/components/Title/Title';
 import './Comparatif.css';
 import Image from 'next/image';
-import { FiEdit3, FiGrid, FiPlus } from 'react-icons/fi';
+import { FiEdit3, FiGrid, FiPlus, FiSearch, FiX } from 'react-icons/fi';
 import { LuPrinter } from 'react-icons/lu';
 import { TbAirConditioning } from 'react-icons/tb';
 import Modal from '@mui/material/Modal';
 import { useState } from 'react';
+import { Box } from '@mui/material';
+import HouseCard from '@/components/HouseCard/HouseCard';
 
 export default function Home() {
   const [open, setOpen] = useState(false);
@@ -16,11 +19,17 @@ export default function Home() {
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
-    width: 400,
+    width: '40%',
+    maxHeight: '70%',
+    aspectRatio: 1,
+    borderRadius: 10,
     bgcolor: 'background.paper',
-    border: '2px solid #000',
-    boxShadow: 24,
-    p: 4,
+    padding: '50px 50px 0 50px',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'flex-start',
+    flexDirection: 'column',
+    gap: '22px',
   };
   return (
     <div
@@ -50,7 +59,7 @@ export default function Home() {
               <button className="action-btn">
                 <LuPrinter size={20} />
               </button>
-              <button className="action-btn" onClick={handleOpen}>
+              <button className="action-btn">
                 <FiEdit3 size={20} />
               </button>
             </div>
@@ -128,6 +137,7 @@ export default function Home() {
                 display: 'flex',
                 gap: '5px',
               }}
+              onClick={handleOpen}
             >
               <FiPlus size={20} />
               <p>Ajouter un bien</p>
@@ -180,8 +190,42 @@ export default function Home() {
         onClose={handleClose}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
+        className="modal"
       >
-        <div></div>
+        <Box sx={style}>
+          <div className="sale-header">
+            <Title>Logements disponibles</Title>{' '}
+            <span onClick={handleClose}>
+              <FiX size={20} />
+            </span>
+          </div>
+          <div className="search-bar">
+            <input
+              type="text"
+              name="search"
+              id="search"
+              placeholder="Rechercher un logement"
+            />
+            <button
+              className="action-btn"
+              style={{
+                backgroundColor: '#FF3E57',
+                border: 'none',
+                width: '35px',
+                height: '35px',
+              }}
+            >
+              <FiSearch size={20} color="white" />
+            </button>
+          </div>
+          <div className="grid-apparts">
+            <HouseCard />
+            <HouseCard />
+            <HouseCard />
+            <HouseCard />
+            <HouseCard />
+          </div>
+        </Box>
       </Modal>
     </div>
   );
