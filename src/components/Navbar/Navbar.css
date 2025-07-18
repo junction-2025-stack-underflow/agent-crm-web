@@ -55,3 +55,31 @@ nav .status-bar {
   background-color: black;
   transition: width 0.3s all;
 }
+
+.search-bar {
+  width: 100%;
+  height: 50px;
+  border: 1px solid #e4e4e4;
+  border-radius: 25px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding-block: 10px;
+  padding-right: 10px;
+  padding-left: 20px;
+}
+
+.search-bar input {
+  flex-grow: 1;
+  height: 100%;
+  font-size: 15px;
+  outline: none;
+  border: none;
+}
+
+.drawer .houses-container {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
