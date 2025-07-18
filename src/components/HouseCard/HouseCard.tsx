@@ -11,7 +11,7 @@ const HouseCard = () => {
         width={'100%'}
         style={{ aspectRatio: 1, borderRadius: '16px' }}
       />
-      <h3>Apparemment f3 . Salim</h3>
+      <h3>Appartemment f3 . Salim</h3>
       <div className="footer">
         <h4>Cheraga - Alger</h4>
         <button>30 Clients potentiels</button>

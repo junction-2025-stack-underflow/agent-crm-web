@@ -48,7 +48,7 @@
 }
 
 @font-face {
-  font-family: 'ProductSans';
+  font-family: 'ProductSansM';
   src: url('/fonts/ProductSans-Medium.ttf') format('truetype');
   font-weight: 500;
   font-style: normal;
@@ -145,4 +145,11 @@ input:focus {
 .leaflet-marker-icon[alt='Marker']::after {
   content: none !important;
   display: none !important;
+}
+
+.sale-header {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }

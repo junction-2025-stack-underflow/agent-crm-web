@@ -19,7 +19,7 @@ export default function Navbar() {
         <ul>
           <li>
             <Link href="/" className={pathname === '/' ? 'active' : 'inactive'}>
-              Dashboard
+              Comparatifs
             </Link>
           </li>
           <li>
@@ -66,15 +66,17 @@ export default function Navbar() {
           Quitter
         </button>
       )}
-      <div
-        style={{ position: 'absolute', bottom: 0, left: 0 }}
-        className="status-bar"
-      >
+      {pathname == '/add' && (
         <div
-          className="fill-bar"
-          style={{ width: `${(currentStep * 100) / 7}%` }}
-        />
-      </div>
+          style={{ position: 'absolute', bottom: 0, left: 0 }}
+          className="status-bar"
+        >
+          <div
+            className="fill-bar"
+            style={{ width: `${(currentStep * 100) / 7}%` }}
+          />
+        </div>
+      )}
     </nav>
   );
 }

@@ -5,6 +5,7 @@ const Title: React.FC<React.PropsWithChildren> = ({ children }) => {
     <h2
       style={{
         fontSize: '20px',
+        fontWeight: 500,
       }}
     >
       {children}

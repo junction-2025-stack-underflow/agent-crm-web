@@ -1,0 +1,305 @@
+table {
+  width: 100% !important;
+  border-collapse: collapse;
+  /* border-radius: 16px; */
+  overflow: hidden;
+  /* border: 1px solid rgba(0, 0, 0, 0.1); */
+}
+
+table tr {
+  border: none;
+  height: 55px;
+}
+
+table td {
+  border: none;
+
+  padding: 0 20px;
+  vertical-align: middle;
+  line-height: 1.5;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 110px;
+  max-width: 200px;
+  color: black;
+}
+.icon-prop {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  background-color: rgba(255, 143, 0, 0.1);
+  font-size: 12px;
+  font-weight: 600;
+}
+.icon-prop svg {
+  color: rgb(23, 21, 19);
+}
+.li-action:last-child .icon-prop {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  background-color: rgba(184, 184, 184, 1);
+}
+.li-action {
+  font-size: 12px;
+  font-weight: 600;
+  color: black;
+}
+.li-action:last-child .icon-prop svg {
+  color: black;
+}
+.head td {
+  font-weight: 600;
+  color: black;
+}
+.head td:first-child {
+  border-radius: 8px 0 0 0;
+}
+.head td:last-child {
+  border-radius: 0 8px 0 0;
+}
+
+.head {
+  margin-bottom: 10px;
+}
+
+.css-uywun8-MuiPaper-root-MuiPopover-paper {
+  background-color: transparent !important;
+}
+.MuiPaper-root {
+  --Paper-shadow: 0 !important;
+}
+.table .pagination {
+  position: sticky;
+  top: auto; /* Empêche la stickiness verticale */
+  bottom: auto;
+
+  z-index: 10;
+
+  text-align: center;
+  padding: 10px 0;
+}
+table td span {
+  vertical-align: middle;
+  /* margin: 0 5px; */
+}
+
+table td a {
+  color: black;
+}
+
+.row {
+  color: rgba(126, 126, 126, 1);
+}
+
+.check {
+  background-color: rgba(255, 0, 31, 0.15);
+  border-radius: 50%;
+  height: 20px;
+  width: 20px;
+  text-align: center;
+  position: relative;
+  display: inline-block;
+}
+
+.check svg {
+  color: rgba(255, 0, 31, 1);
+  height: 13px;
+  width: 13px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.table-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 15px;
+  /* margin: 0 2% 20px 0; */
+}
+
+.pagination {
+  width: 100%;
+
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  overflow: hidden;
+  padding: 10px 10px;
+}
+.table-title {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.table-select {
+  padding: 5px;
+  font-size: 14px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 6px;
+}
+
+.table-container {
+  border-radius: 16px;
+  width: 100%;
+  margin-top: 25px;
+  overflow: hidden;
+  margin-bottom: 45px;
+}
+.table-container {
+  /* For WebKit browsers (Chrome, Safari) */
+  ::-webkit-scrollbar {
+    width: 8px; /* Scrollbar width */
+    height: 6px; /* Horizontal scrollbar height */
+  }
+
+  ::-webkit-scrollbar-track {
+    background: #f1f1f1; /* Track background */
+    border-radius: 4px;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: #888; /* Scrollbar handle */
+    border-radius: 4px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: #555; /* Handle on hover */
+  }
+}
+.action-item {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  align-items: center;
+}
+
+.action-item:last-child {
+  border-bottom: none;
+}
+
+.black-td td {
+  color: black;
+}
+.button-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.button-container button:first-child {
+  background-color: white;
+  padding: 10px 20px;
+  border-radius: 4px;
+  border: 1px solid rgba(16, 16, 16, 0.1);
+  font-size: 16px;
+  font-weight: 400;
+  cursor: pointer;
+}
+.button-container button:last-child {
+  color: white;
+  padding: 10px 20px;
+  border-radius: 4px;
+  border: 1px solid rgba(16, 16, 16, 0.1);
+  font-size: 16px;
+  font-weight: 400;
+  background-color: black;
+  cursor: pointer;
+}
+
+@media screen and (max-width: 900px) {
+  .table-container {
+    margin: 0;
+    width: unset;
+  }
+  .button-container button:first-child {
+    background-color: white;
+    padding: 5px 10px;
+    border-radius: 4px;
+    border: 1px solid rgba(16, 16, 16, 0.1);
+    font-size: 8px;
+    font-weight: 400;
+    cursor: pointer;
+  }
+  .button-container button:last-child {
+    color: white;
+    padding: 5px 10px;
+    border-radius: 4px;
+    border: 1px solid rgba(16, 16, 16, 0.1);
+    font-size: 8px;
+    font-weight: 400;
+    background-color: black;
+    cursor: pointer;
+  }
+  .table-div td:last-child {
+    padding-right: 30px;
+  }
+}
+
+.table-div {
+  overflow-x: auto;
+  width: 100%;
+}
+.table-container .point {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: #04af21;
+}
+@media screen and (max-width: 1250px) {
+  .table-container {
+    width: unset;
+    margin-bottom: 25px;
+  }
+  .table-div {
+    overflow-x: scroll;
+  }
+}
+
+@media screen and (max-width: 415px) {
+  tr td {
+    min-width: 20vw;
+  }
+}
+
+thead tr td.green:first-child ~ tbody tr td:first-child,
+.green {
+  color: #189166 !important;
+  min-width: 60px !important;
+}
+
+:root {
+  --pending-status: #f7f7f7;
+  --pending-color: #ff8c00;
+
+  --canceled-status: #fef2f2;
+  --canceled-color: #ff4d4f;
+
+  --completed-status: #f0f9eb;
+  --completed-color: #52c41a;
+
+  --vip-status: #fff7e6;
+  --vip-color: #fa8c16;
+
+  --blacklisted-status: #fafafa;
+  --blacklisted-color: #8c8c8c;
+
+  --normal-status: #e6f7ff;
+  --normal-color: #1890ff;
+
+  --el-dahabiya-status: #f9f0ff;
+  --el-dahabiya-color: #722ed1;
+
+  --cib-status: #fffbe6;
+  --cib-color: #faad14;
+
+  --visa-status: #e6fffb;
+  --visa-color: #13c2c2;
+}

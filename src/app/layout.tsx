@@ -27,7 +27,7 @@ export default function RootLayout({
     <html lang="en" style={{ height: '100%' }}>
       <body
         className={`${geistSans.variable} ${geistMono.variable}`}
-        style={{ height: '100%', display: 'flex', flexDirection: 'column' }}
+        style={{ minHeight: '100%', display: 'flex', flexDirection: 'column' }}
       >
         <Navbar />
         <div
@@ -37,6 +37,7 @@ export default function RootLayout({
             display: 'flex',
             flexGrow: 1,
             minHeight: 0,
+            paddingBottom: '40px',
           }}
         >
           {children}
