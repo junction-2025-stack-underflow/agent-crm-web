@@ -25,6 +25,7 @@ const AddHouseForm = () => {
     defaultValues: {
       type: '',
       localisation: '',
+      coordinates: [],
       superficie: 0,
       chambres: 0,
       lits: 0,
@@ -107,7 +108,9 @@ const AddHouseForm = () => {
       <div className="add-form-container">
         <h3>Étape 0{currentStep}</h3>
         <h2>{getTitle(currentStep)}</h2>
-        <div style={{ width: '100%', flexGrow: 1 }}>{getStep(currentStep)}</div>
+        <div style={{ width: '100%', flexGrow: 1, paddingTop: 10 }}>
+          {getStep(currentStep)}
+        </div>
         <div className="form-footer">
           {currentStep == 1 ? (
             <div></div>

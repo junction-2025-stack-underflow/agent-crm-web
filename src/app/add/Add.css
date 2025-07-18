@@ -13,7 +13,7 @@
 .add-form-container h3 {
   font-weight: 500;
   font-style: Regular;
-  font-size: 21px;
+  font-size: 17px;
   leading-trim: NONE;
   line-height: 100%;
   letter-spacing: 0%;
@@ -44,6 +44,7 @@
   border: none;
   font-weight: 500;
   font-size: 15px;
+  cursor: pointer;
 }
 
 .add-form-container .form-footer button:first-child {

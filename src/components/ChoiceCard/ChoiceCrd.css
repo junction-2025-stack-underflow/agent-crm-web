@@ -11,6 +11,7 @@
   gap: 15px;
   background-color: white;
   border: 1px solid var(--border);
+  cursor: pointer;
 }
 
 .choice-card h4 {
@@ -20,4 +21,9 @@
   leading-trim: NONE;
   line-height: 100%;
   letter-spacing: 0%;
+}
+
+.choice-card.selected {
+  border-color: black;
+  border-width: 2px;
 }

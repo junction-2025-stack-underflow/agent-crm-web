@@ -5,10 +5,11 @@ import { FiBell, FiMenu } from 'react-icons/fi';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import './Navbar.css';
+import useStepper from '@/store/StepperStore';
 
 export default function Navbar() {
   const pathname = usePathname();
-
+  const { currentStep } = useStepper();
   return (
     <nav>
       <button className="action-btn">
@@ -65,6 +66,15 @@ export default function Navbar() {
           Quitter
         </button>
       )}
+      <div
+        style={{ position: 'absolute', bottom: 0, left: 0 }}
+        className="status-bar"
+      >
+        <div
+          className="fill-bar"
+          style={{ width: `${(currentStep * 100) / 7}%` }}
+        />
+      </div>
     </nav>
   );
 }

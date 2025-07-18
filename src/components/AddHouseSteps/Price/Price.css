@@ -1,0 +1,40 @@
+.price-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  font-size: 2.5rem;
+  font-weight: bold;
+  gap: 12px;
+}
+
+.price-value {
+  font-size: 70px;
+  color: #000;
+}
+
+.edit-button {
+  background: #f2f2f2;
+  border: none;
+  border-radius: 50%;
+  padding: 6px;
+  cursor: pointer;
+  font-size: 1.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.edit-button:hover {
+  background: #ddd;
+}
+
+.price-input {
+  font-size: 2.5rem;
+  font-weight: bold;
+  padding: 4px 8px;
+  border: 2px solid #ccc;
+  border-radius: 8px;
+  width: 200px;
+}

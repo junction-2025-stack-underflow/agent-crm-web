@@ -114,6 +114,10 @@ a {
   color: inherit;
   text-decoration: none;
 }
+input:focus {
+  border: none !important;
+  outline: none !important;
+}
 
 .actions-container {
   display: flex;
@@ -131,4 +135,14 @@ a {
   border: 0.68px solid var(--border);
   background-color: var(--background);
   cursor: pointer;
+}
+
+.leaflet-marker-icon[alt='Marker'] {
+  alt: '';
+  display: block;
+}
+
+.leaflet-marker-icon[alt='Marker']::after {
+  content: none !important;
+  display: none !important;
 }
