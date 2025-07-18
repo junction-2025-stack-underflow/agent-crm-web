@@ -1,0 +1,37 @@
+.house-card {
+  width: 240px;
+  height: 270px;
+  border-radius: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+.house-card h3 {
+  font-size: 14px;
+  font-weight: 500;
+  font-style: normal;
+  color: black;
+}
+.house-card .footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.house-card .footer h4 {
+  font-size: 11px;
+  font-weight: 500;
+  font-style: normal;
+  color: #7e7e7e;
+}
+
+.house-card .footer button {
+  width: 85px;
+  height: 20px;
+  background-color: #ff3e57;
+  color: white;
+  border-radius: 17.3px;
+  padding: 4.32px;
+  font-size: 8px;
+  border: none;
+}

@@ -1,0 +1,23 @@
+.choice-card {
+  width: 224px;
+  height: 127px;
+  border-radius: 16px;
+  border-width: 1px;
+  padding: 15px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  flex-direction: column;
+  gap: 15px;
+  background-color: white;
+  border: 1px solid var(--border);
+}
+
+.choice-card h4 {
+  font-weight: 500;
+  font-style: bold;
+  font-size: 24px;
+  leading-trim: NONE;
+  line-height: 100%;
+  letter-spacing: 0%;
+}
