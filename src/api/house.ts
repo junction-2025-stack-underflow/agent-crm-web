@@ -1,20 +1,21 @@
-import { IHouseForm } from '@/utils/types/house.types';
 import { client } from './config';
-import mime from 'mime';
+
 export const createHouse = async (house: IHouseForm): Promise<any> => {
   const formData = new FormData();
 
+  // Assuming house.photos contains File objects from <input type="file" multiple>
   if (house.photos && house.photos.length > 0) {
-    for (const [index, uri] of house.photos.entries()) {
-      const fileType = mime.getType(uri);
-      formData.append('images', {
-        uri,
-        type: fileType || 'image/jpeg',
-        name: `image-${index}.${mime.getExtension(fileType || 'image/jpeg')}`,
-      } as any);
-    }
+    house.photos.forEach((file: File, index: number) => {
+      console.log('File type:', file.type); // Should log image/jpeg, image/png, etc.
+      formData.append(
+        'images',
+        file,
+        `image-${index}.${file.name.split('.').pop()}`
+      );
+    });
   }
 
+  // Rest of your code to append other fields
   formData.append('nombreLits', house.lits.toString());
   formData.append('nombreSallesDeBain', house.sdb.toString());
   formData.append('nombreCuisine', house.cuisine.toString());
@@ -52,12 +53,7 @@ export const createHouse = async (house: IHouseForm): Promise<any> => {
   };
   formData.append('details', JSON.stringify(details));
   formData.append('agencyId', '687ad5afb134148fddb99a64');
-
-  const { data } = await client.post<any>('/houses', formData, {
-    headers: {
-      'Content-Type': 'multipart/form-data',
-    },
-  });
-
+  console.log(formData);
+  const { data } = await client.post<any>('/houses', formData);
   return data;
 };
