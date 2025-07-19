@@ -40,6 +40,7 @@ const Localisation = () => {
           `https://photon.komoot.io/api/?q=${encodeURIComponent(query)}&limit=5`
         );
         const data = await res.json();
+        console.log(data);
         setSuggestions(data.features);
       } catch (err) {
         console.error('Search failed:', err);

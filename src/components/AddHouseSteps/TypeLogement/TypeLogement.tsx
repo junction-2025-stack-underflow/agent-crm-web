@@ -6,7 +6,7 @@ import { useFormContext } from 'react-hook-form';
 const TypeLogement = () => {
   const { watch, setValue } = useFormContext();
   const selectedType = watch('type');
-  const types = ['Maison', 'Appartement', 'Villa'];
+  const types = ['House', 'Apartment', 'Villa'];
   return (
     <div className="houses-container">
       {types.map((type: string) => (
@@ -14,9 +14,9 @@ const TypeLogement = () => {
           key={type}
           type={type}
           onClick={() => {
-            setValue('type', type.toLowerCase());
+            setValue('type', type);
           }}
-          selected={type.toLowerCase() === selectedType}
+          selected={type === selectedType}
         />
       ))}
     </div>

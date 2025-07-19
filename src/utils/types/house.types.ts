@@ -1,7 +1,7 @@
 export interface IHouseForm {
   type: string;
   localisation: string;
-  coordinates: [];
+  coordinates: [number, number];
   superficie: number;
   chambres: number;
   lits: number;

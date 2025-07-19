@@ -1,8 +1,7 @@
 .add-form-container {
   width: 100%;
-  height: 100%;
-  flex-grow: 1;
   padding-bottom: 120px;
+  flex-grow: 1;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -47,12 +46,12 @@
   cursor: pointer;
 }
 
-.add-form-container .form-footer button:first-child {
+.add-form-container .form-footer .back {
   background-color: white;
   text-decoration: underline;
   color: black;
 }
-.add-form-container .form-footer button:nth-child(2) {
+.add-form-container .form-footer .continue {
   background-color: black;
   color: white;
 }

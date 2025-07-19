@@ -8,12 +8,15 @@ import Texts from '@/components/AddHouseSteps/Texts/Texts';
 import TypeLogement from '@/components/AddHouseSteps/TypeLogement/TypeLogement';
 import useStepper from '@/store/StepperStore';
 import { IHouseForm } from '@/utils/types/house.types';
-import React, { useEffect } from 'react';
-import { FormProvider, useForm } from 'react-hook-form';
+import React, { useEffect, useState } from 'react';
+import { FormProvider, useForm, useWatch } from 'react-hook-form';
+import { Snackbar, Alert } from '@mui/material';
+
 import './Add.css';
-import { Divider } from 'antd';
+import { createHouse } from '@/api/house';
 
 const AddHouseForm = () => {
+  const [open, setOpen] = useState(false);
   const {
     currentStep,
     goNextStep,
@@ -25,7 +28,7 @@ const AddHouseForm = () => {
     defaultValues: {
       type: '',
       localisation: '',
-      coordinates: [],
+      coordinates: [0, 0],
       superficie: 0,
       chambres: 0,
       lits: 0,
@@ -38,10 +41,14 @@ const AddHouseForm = () => {
       price: 0,
     },
   });
+  const watched = useWatch({ control: methods.control });
 
   const handleNextStep = async () => {
     if (currentStep === 7) {
       console.log(methods.getValues());
+      createHouse(methods.getValues()).then((response) => {
+        console.log(response);
+      });
       return;
     }
     const isValid = await methods.trigger();
@@ -103,6 +110,42 @@ const AddHouseForm = () => {
     }
   };
 
+  const isStepValid = () => {
+    switch (currentStep) {
+      case 1:
+        return !!watched.type;
+      case 2:
+        return (
+          !!watched.localisation &&
+          watched.coordinates?.length === 2 &&
+          watched.coordinates.every((c: number) => typeof c === 'number')
+        );
+      case 3:
+        return (
+          !!watched.superficie &&
+          watched.superficie > 0 &&
+          !!watched.chambres &&
+          watched.chambres >= 0 &&
+          !!watched.lits &&
+          watched.lits >= 0 &&
+          !!watched.sdb &&
+          watched.sdb >= 0 &&
+          !!watched.cuisine &&
+          watched.cuisine >= 0
+        );
+      case 4:
+        return Array.isArray(watched.options);
+      case 5:
+        return watched.photos && watched.photos.length > 0;
+      case 6:
+        return !!watched.titre && !!watched.desc;
+      case 7:
+        return !!watched.price && watched.price > 0;
+      default:
+        return false;
+    }
+  };
+
   return (
     <FormProvider {...methods}>
       <div className="add-form-container">
@@ -115,11 +158,48 @@ const AddHouseForm = () => {
           {currentStep == 1 ? (
             <div></div>
           ) : (
-            <button onClick={goPreviousStep}>Retour</button>
+            <button onClick={goPreviousStep} className="back">
+              Retour
+            </button>
           )}
 
-          <button onClick={handleNextStep}>Suivant</button>
+          <div
+            onClick={() => {
+              if (!isStepValid()) {
+                setOpen(true); // Show snackbar
+              } else {
+                handleNextStep(); // Proceed
+              }
+            }}
+            style={{ display: 'inline-block', cursor: 'pointer' }}
+          >
+            <button
+              disabled={!isStepValid()}
+              style={{
+                backgroundColor: !isStepValid() ? '#7E7E7E' : 'black',
+                pointerEvents: 'none', // Disable pointer inside button
+              }}
+              className="continue"
+            >
+              Suivant
+            </button>
+          </div>
         </div>
+        <Snackbar
+          open={open}
+          autoHideDuration={3000}
+          onClose={() => setOpen(false)}
+          anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+        >
+          <Alert
+            severity="warning"
+            onClose={() => setOpen(false)}
+            sx={{ width: '100%' }}
+          >
+            Veuillez remplir tous les champs requis ou cliquer au moins sur un
+            des choix avant de continuer.
+          </Alert>
+        </Snackbar>
       </div>
     </FormProvider>
   );

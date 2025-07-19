@@ -119,7 +119,7 @@ const InfosHouse = () => {
       <div style={{ width: '100%', backgroundColor: '#E4E4E4', height: 0.3 }} />
 
       <div className="info-item">
-        <span className="label">Salle de bain</span>
+        <span className="label">Cuisine</span>
         <div className="counter">
           <button
             className="counter-btn"
