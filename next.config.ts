@@ -4,11 +4,11 @@ const nextConfig: NextConfig = {
   images: {
     remotePatterns: [
       {
+        protocol: 'http',
         hostname: '**', // '**' is a wildcard that matches ANY domain
+        pathname: '/uploads/**',
       },
     ],
-    unoptimized: true, // Disables Next.js image optimization to allow any source
-    // WARNING: This removes many performance benefits
   },
 };
 
