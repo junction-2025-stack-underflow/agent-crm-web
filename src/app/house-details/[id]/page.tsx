@@ -1,15 +1,77 @@
 'use client';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
 import Title from '@/components/Title/Title';
 import './HouseInfo.css';
-import egImg from '../../../../public/images/eg-img.jpg';
+import {
+  FaWifi,
+  FaTv,
+  FaSnowflake,
+  FaParking,
+  FaSoap,
+  FaRadiationAlt,
+} from 'react-icons/fa';
 import { LuSquareParking } from 'react-icons/lu';
 import Table from '@/components/Table/Table';
+import { IHouse } from '@/utils/types/house.types';
+import { getHouseById } from '@/api/house';
+import Loader from '@/components/Loader/Loader';
 
 const HouseDetails = () => {
   const params = useParams();
-  const { id } = params;
+  const ApiUrl = process.env.NEXT_PUBLIC_IMG_BASE_URL;
+  const { id } = useParams<{ id: string }>();
+  const [house, setHouse] = useState<IHouse | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [showFullDesc, setShowFullDesc] = useState(false);
+
+  const getDescriptionLines = (text: string) => text.split('\n');
+  const descLines = getDescriptionLines(house?.description ?? '');
+
+  const amenities = [
+    { key: 'wifi', label: 'Wi-Fi gratuit', icon: <FaWifi size={20} /> },
+    {
+      key: 'climatisation',
+      label: 'Climatisation',
+      icon: <FaSnowflake size={20} />,
+    },
+    { key: 'laveLinge', label: 'Lave-linge', icon: <FaSoap size={20} /> },
+    { key: 'television', label: 'Télévision', icon: <FaTv size={20} /> },
+    {
+      key: 'chauffage',
+      label: 'Chauffage',
+      icon: <FaRadiationAlt size={20} />,
+    },
+    {
+      key: 'parking',
+      label: 'Parking gratuit sur place',
+      icon: <FaParking size={20} />,
+    },
+  ];
+
+  const images = house?.images || [];
+  const maxImages = 5;
+
+  const displayedImages = [...images].slice(0, maxImages);
+  const missingCount = maxImages - displayedImages.length;
+
+  useEffect(() => {
+    if (id) {
+      getHouseById(id)
+        .then((data) => {
+          console.log(data);
+          setHouse(data.house);
+        })
+        .catch((err) => {
+          console.error('Failed to load house:', err);
+          // Optional: Handle errors or show fallback
+        })
+        .finally(() => setLoading(false));
+    }
+  }, [id]);
+
+  if (loading) return <Loader />;
+  if (!house) return <div>Maison introuvable ou erreur d’accès.</div>;
 
   const tableData = [
     {
@@ -68,56 +130,59 @@ const HouseDetails = () => {
       }}
       className="house-info"
     >
-      <Title>Titre de la publication</Title>
-      <h4>Cheraga - Alger</h4>
+      <Title>{house.titre}</Title>
+      <h4>{house.region}</h4>
       <div className="grid-galery">
-        <img src="/images/eg-img.jpg" className="grid-img" />
-        <img src="/images/eg-img.jpg" className="grid-img" />
-        <img src="/images/eg-img.jpg" className="grid-img" />
-        <img src="/images/eg-img.jpg" className="grid-img" />
-        <img src="/images/eg-img.jpg" className="grid-img" />
+        <div className="grid-galery">
+          {(house.images || []).slice(0, 5).map((img, index) => {
+            const fixedUrl = `${
+              process.env.NEXT_PUBLIC_IMG_BASE_URL
+            }${img.replace(/\\/g, '/')}`;
+            return (
+              <img
+                key={index}
+                src={fixedUrl}
+                className="grid-img"
+                alt={`image-${index}`}
+              />
+            );
+          })}
+
+          {Array.from({ length: missingCount }).map((_, i) => (
+            <img src="/images/eg-img.jpg" className="grid-img" key={i} />
+          ))}
+        </div>
       </div>
-      <Title>Logement entier : Villa avec piscines </Title>
-      <h6 style={{ fontWeight: 300, fontSize: 15 }}>Nom du propriétaire</h6>
-      <h5 style={{ fontWeight: 300, fontSize: '18px' }}>
-        Bienvenue dans le logement Cosy, situé à proximité des commerces et de
-        la gare Via le tram 1 station qui vous ramène directement a l'intérieur
-        de la gare RER B Vous avez aussi un espace de rangement avec cintres et
-        fer à repasser. Vous avez tous les ustensiles nécessaires pour bien
-        cuisiner et manger à deux ou trois. Vous avez également à disposition
-        une machine à café et une bouilloire , vous avez bien sûr accès à
-        quelques sachets de thé et quelques rosettes de café et bien sûr des
-        bouteilles d'eau. Le logement est parfait pour trois personnes, venez
-        profiter du logement zen qui est proche de Paris.
+      <h6 style={{ fontWeight: 300, fontSize: 15 }}>Wassim pro</h6>
+      <h5 style={{ fontWeight: 300, fontSize: '18px', whiteSpace: 'pre-line' }}>
+        {showFullDesc || descLines.length <= 5
+          ? house.description
+          : descLines.slice(0, 5).join('\n')}
       </h5>
-      <button>Lire la suite</button>
+
+      {descLines.length > 5 && (
+        <button
+          onClick={() => setShowFullDesc(!showFullDesc)}
+          style={{ marginBottom: '10px' }}
+        >
+          {showFullDesc ? 'Réduire' : 'Lire la suite'}
+        </button>
+      )}
       <div style={{ width: '100%', backgroundColor: '#E4E4E4', height: 0.3 }} />
       <Title>Ce que propose le logement</Title>
       <div className="grid-logement-info">
-        <div className="logement-info">
-          <LuSquareParking size={20} />
-          <p>Parking gratuit sur place</p>
-        </div>
-        <div className="logement-info">
-          <LuSquareParking size={20} />
-          <p>Parking gratuit sur place</p>
-        </div>
-        <div className="logement-info">
-          <LuSquareParking size={20} />
-          <p>Parking gratuit sur place</p>
-        </div>
-        <div className="logement-info">
-          <LuSquareParking size={20} />
-          <p>Parking gratuit sur place</p>
-        </div>
-        <div className="logement-info">
-          <LuSquareParking size={20} />
-          <p>Parking gratuit sur place</p>
-        </div>
-        <div className="logement-info">
-          <LuSquareParking size={20} />
-          <p>Parking gratuit sur place</p>
-        </div>
+        {amenities.map((item) => {
+          // @ts-ignore : on suppose que les clés correspondent aux props du house
+          if (house[item.key]) {
+            return (
+              <div key={item.key} className="logement-info">
+                {item.icon}
+                <p>{item.label}</p>
+              </div>
+            );
+          }
+          return null;
+        })}
       </div>
       <h2 className="client">Client potentiel </h2>
       <Table

@@ -14,9 +14,12 @@ import { Snackbar, Alert } from '@mui/material';
 
 import './Add.css';
 import { createHouse } from '@/api/house';
+import { useRouter } from 'next/navigation';
+import Loader from '@/components/Loader/Loader';
 
 const AddHouseForm = () => {
   const [open, setOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const {
     currentStep,
     goNextStep,
@@ -42,23 +45,31 @@ const AddHouseForm = () => {
     },
   });
   const watched = useWatch({ control: methods.control });
+  const router = useRouter();
 
   const handleNextStep = async () => {
     if (currentStep === 7) {
+      setIsLoading(true);
       console.log(methods.getValues());
-      createHouse(methods.getValues()).then((response) => {
-        console.log(response);
-      });
-      return;
-    }
-    const isValid = await methods.trigger();
+      await createHouse(methods.getValues()).then((response) => {
+        if (response?.success && response?.data?.house?._id) {
+          setIsLoading(true); // Already true, but just to be sure
 
-    if (isValid) {
-      goNextStep();
+          const houseId = response.data.house.details.ID;
+
+          // ✅ Navigate first
+          router.push(`/house-details/${houseId}`);
+
+          // ⏳ Then reset everything after navigation completes
+          setTimeout(() => {
+            resetStepper(); // Don't reset before navigating
+            methods.reset(); // Also optional here
+            setIsLoading(false);
+          }, 1000); // 1 second is plenty
+        }
+      });
     } else {
-      const errors = methods.formState.errors;
-      console.log(errors);
-      // displayFormError(errors);
+      goNextStep();
     }
   };
 
@@ -148,59 +159,72 @@ const AddHouseForm = () => {
 
   return (
     <FormProvider {...methods}>
-      <div className="add-form-container">
-        <h3>Étape 0{currentStep}</h3>
-        <h2>{getTitle(currentStep)}</h2>
-        <div style={{ width: '100%', flexGrow: 1, paddingTop: 10 }}>
-          {getStep(currentStep)}
-        </div>
-        <div className="form-footer">
-          {currentStep == 1 ? (
-            <div></div>
-          ) : (
-            <button onClick={goPreviousStep} className="back">
-              Retour
-            </button>
-          )}
-
-          <div
-            onClick={() => {
-              if (!isStepValid()) {
-                setOpen(true); // Show snackbar
-              } else {
-                handleNextStep(); // Proceed
-              }
-            }}
-            style={{ display: 'inline-block', cursor: 'pointer' }}
-          >
-            <button
-              disabled={!isStepValid()}
-              style={{
-                backgroundColor: !isStepValid() ? '#7E7E7E' : 'black',
-                pointerEvents: 'none', // Disable pointer inside button
-              }}
-              className="continue"
-            >
-              Suivant
-            </button>
+      {isLoading ? (
+        <Loader />
+      ) : (
+        <div className="add-form-container">
+          <h3>Étape 0{currentStep}</h3>
+          <h2>{getTitle(currentStep)}</h2>
+          <div style={{ width: '100%', flexGrow: 1, paddingTop: 10 }}>
+            {getStep(currentStep)}
           </div>
-        </div>
-        <Snackbar
-          open={open}
-          autoHideDuration={3000}
-          onClose={() => setOpen(false)}
-          anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
-        >
-          <Alert
-            severity="warning"
+          <div className="form-footer">
+            {currentStep == 1 ? (
+              <div></div>
+            ) : (
+              <button onClick={goPreviousStep} className="back">
+                Retour
+              </button>
+            )}
+
+            <div
+              onClick={() => {
+                const valid = isStepValid();
+                console.log(
+                  'clicked — is valid:',
+                  valid,
+                  '| current step:',
+                  currentStep,
+                  '| values:',
+                  methods.getValues()
+                );
+                if (!valid) {
+                  setOpen(true); // Show snackbar
+                } else {
+                  handleNextStep(); // Proceed
+                }
+              }}
+              style={{ display: 'inline-block', cursor: 'pointer' }}
+            >
+              <button
+                disabled={!isStepValid()}
+                style={{
+                  backgroundColor: !isStepValid() ? '#7E7E7E' : 'black',
+                  pointerEvents: 'none', // Disable pointer inside button
+                }}
+                className="continue"
+              >
+                Suivant
+              </button>
+            </div>
+          </div>
+          <Snackbar
+            open={open}
+            autoHideDuration={3000}
             onClose={() => setOpen(false)}
-            sx={{ width: '100%' }}
+            anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
           >
-            Veuillez remplir tous les champs requis ou cliquer au moins sur un
-            des choix avant de continuer.
-          </Alert>
-        </Snackbar>
-      </div>
+            <Alert
+              severity="warning"
+              onClose={() => setOpen(false)}
+              sx={{ width: '100%' }}
+            >
+              Veuillez remplir tous les champs requis ou cliquer au moins sur un
+              des choix avant de continuer.
+            </Alert>
+          </Snackbar>
+        </div>
+      )}
     </FormProvider>
   );
 };

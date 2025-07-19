@@ -17,7 +17,7 @@ const InfosHouse = () => {
   };
 
   const handleSuperficieChange = (e: any) => {
-    setValue('superficie', e.target.value);
+    setValue('superficie', e.target.value.replace(/^0+/, ''));
   };
 
   const handleSuperficieBlur = () => {

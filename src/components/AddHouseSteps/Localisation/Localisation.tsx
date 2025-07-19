@@ -60,12 +60,15 @@ const Localisation = () => {
     setQuery(feature.properties.name || '');
     setValue(
       'localisation',
-      feature.properties.name +
-        ', ' +
-        feature.properties.city +
-        ', ' +
-        feature.properties.state
+      [
+        feature.properties.name,
+        feature.properties.city,
+        feature.properties.state,
+      ]
+        .filter(Boolean)
+        .join(', ')
     );
+
     setSuggestions([]);
   };
 

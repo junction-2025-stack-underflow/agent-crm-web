@@ -1,3 +1,4 @@
+import { IHouse, IHouseForm } from '@/utils/types/house.types';
 import { client } from './config';
 
 export const createHouse = async (house: IHouseForm): Promise<any> => {
@@ -60,4 +61,11 @@ export const createHouse = async (house: IHouseForm): Promise<any> => {
     },
   });
   return data;
+};
+
+export const getHouseById = async (id: string): Promise<any> => {
+  const { data } = await client.get<{ data: IHouse }>(
+    `/houses/myhouse/${id}?agencyId=687ad5afb134148fddb99a64`
+  );
+  return data.data;
 };

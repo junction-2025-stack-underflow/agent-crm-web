@@ -14,6 +14,7 @@ const TypeLogement = () => {
           key={type}
           type={type}
           onClick={() => {
+            console.log('type to be given', type);
             setValue('type', type);
           }}
           selected={type === selectedType}
