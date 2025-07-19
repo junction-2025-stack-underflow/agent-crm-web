@@ -54,6 +54,10 @@ export const createHouse = async (house: IHouseForm): Promise<any> => {
   formData.append('details', JSON.stringify(details));
   formData.append('agencyId', '687ad5afb134148fddb99a64');
   console.log(formData);
-  const { data } = await client.post<any>('/houses', formData);
+  const { data } = await client.post<any>('/houses', formData, {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
+  });
   return data;
 };
