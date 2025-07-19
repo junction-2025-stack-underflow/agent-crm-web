@@ -69,3 +69,10 @@ export const getHouseById = async (id: string): Promise<any> => {
   );
   return data.data;
 };
+
+export const getAllHouses = async (): Promise<any> => {
+  const { data } = await client.get<{ data: IHouse[] }>(
+    `/houses/myhouses/687ad5afb134148fddb99a64`
+  );
+  return data.data;
+};

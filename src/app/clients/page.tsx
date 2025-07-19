@@ -1,49 +1,33 @@
+'use client';
 import HouseCard from '@/components/HouseCard/HouseCard';
 import Title from '@/components/Title/Title';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import './Client.css';
 import { FiPlus } from 'react-icons/fi';
 import Table from '@/components/Table/Table';
+import { useRouter } from 'next/navigation';
+import { getAllClients } from '@/api/client';
 
 const Clients = () => {
-  const tableData = [
-    {
-      client: 'Lalout Mehdi',
-      telephone: '+213 554 95 93 57',
-      budget: '150.000.000,00 DZD',
-      statut: 'VIP',
-    },
-    {
-      client: 'Lalout Mehdi',
-      telephone: '+213 554 95 93 57',
-      budget: '120.000.000,00 DZD',
-      statut: 'Nouveau',
-    },
-    {
-      client: 'Lalout Mehdi',
-      telephone: '+213 554 95 93 57',
-      budget: '150.000.000,00 DZD',
-      statut: 'Régulier',
-    },
-    {
-      client: 'Lalout Mehdi',
-      telephone: '+213 554 95 93 57',
-      budget: '150.000.000,00 DZD',
-      statut: 'Nouveau',
-    },
-    {
-      client: 'Lalout Mehdi',
-      telephone: '+213 554 95 93 57',
-      budget: '150.000.000,00 DZD',
-      statut: 'Régulier',
-    },
-    {
-      client: 'Lalout Mehdi',
-      telephone: '+213 554 95 93 57',
-      budget: '150.000.000,00 DZD',
-      statut: 'Black lister',
-    },
-  ];
+  const router = useRouter();
+  const [clients, setClients] = useState<any[]>([]);
+
+  useEffect(() => {
+    fetchdata();
+  }, []);
+
+  const fetchdata = async () => {
+    const response = await getAllClients();
+    setClients(response.clients);
+    console.log(response);
+  };
+
+  const tableData = clients.map((client, index) => ({
+    fullName: client.fullName,
+    telephone: client.telephone,
+    budget: '150.000.000,00 DZD', // Valeur temporaire
+    statut: ['VIP', 'Régulier', 'Nouveau', 'Black lister'][index % 4], // Cycle des statuts pour exemple
+  }));
 
   const headers = ['Client', 'Téléphone', 'Budget', 'Statut', 'Action '];
   return (
@@ -67,7 +51,7 @@ const Clients = () => {
       <Table
         tr={headers}
         td={tableData.map((row) => [
-          { text: row.client },
+          { text: row.fullName },
           { text: row.telephone },
           { text: row.budget },
           { text: row.statut },

@@ -6,9 +6,11 @@ import { FiEdit3, FiGrid, FiPlus, FiSearch, FiX } from 'react-icons/fi';
 import { LuPrinter } from 'react-icons/lu';
 import { TbAirConditioning } from 'react-icons/tb';
 import Modal from '@mui/material/Modal';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Box } from '@mui/material';
 import HouseCard from '@/components/HouseCard/HouseCard';
+import { IHouse } from '@/utils/types/house.types';
+import { getAllHouses } from '@/api/house';
 
 export default function Home() {
   const [open, setOpen] = useState(false);
@@ -30,6 +32,17 @@ export default function Home() {
     justifyContent: 'flex-start',
     flexDirection: 'column',
     gap: '22px',
+  };
+  const [houses, setHouses] = useState<IHouse[]>([]);
+
+  useEffect(() => {
+    fetchdata();
+  }, []);
+
+  const fetchdata = async () => {
+    const response = await getAllHouses();
+    setHouses(response.houses);
+    console.log(response);
   };
   return (
     <div
@@ -219,11 +232,9 @@ export default function Home() {
             </button>
           </div>
           <div className="grid-apparts">
-            <HouseCard />
-            <HouseCard />
-            <HouseCard />
-            <HouseCard />
-            <HouseCard />
+            {houses.map((house: IHouse) => (
+              <HouseCard {...house} />
+            ))}
           </div>
         </Box>
       </Modal>

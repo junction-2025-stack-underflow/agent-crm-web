@@ -16,12 +16,15 @@ import Table from '@/components/Table/Table';
 import { IHouse } from '@/utils/types/house.types';
 import { getHouseById } from '@/api/house';
 import Loader from '@/components/Loader/Loader';
+import { getRecommandationByHouse } from '@/api/recommandation';
+import { getClientById } from '@/api/client';
 
 const HouseDetails = () => {
   const params = useParams();
   const ApiUrl = process.env.NEXT_PUBLIC_IMG_BASE_URL;
   const { id } = useParams<{ id: string }>();
   const [house, setHouse] = useState<IHouse | null>(null);
+  const [tableFetchedData, setTableFetchedData] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [showFullDesc, setShowFullDesc] = useState(false);
 
@@ -57,18 +60,51 @@ const HouseDetails = () => {
 
   useEffect(() => {
     if (id) {
-      getHouseById(id)
-        .then((data) => {
-          console.log(data);
-          setHouse(data.house);
-        })
-        .catch((err) => {
-          console.error('Failed to load house:', err);
-          // Optional: Handle errors or show fallback
-        })
-        .finally(() => setLoading(false));
+      fetchData();
     }
   }, [id]);
+
+  const fetchData = async () => {
+    await getHouseById(id)
+      .then(async (data) => {
+        console.log(data);
+        setHouse(data.house);
+        getRecommandation(data.house.details.ID);
+      })
+      .catch((err) => {
+        console.error('Failed to load house:', err);
+        // Optional: Handle errors or show fallback
+      })
+      .finally(() => setLoading(false));
+  };
+
+  const getRecommandation = async (houseId: string) => {
+    try {
+      const response = await getRecommandationByHouse(houseId);
+      const matches = response?.matches || [];
+
+      // Pour chaque client_id, on récupère les infos
+      const clientPromises = matches.map(async (match: any) => {
+        const clientDetails = await getClientById(match.client_id);
+
+        return {
+          fullName: clientDetails.fullName,
+          telephone: clientDetails.telephone,
+          compatibilite: `${Math.round((1 - match.distance) * 100)}%`,
+          budget: '150.000.000,00 DZD', // valeur fictive
+          statut: ['VIP', 'Régulier', 'Nouveau', 'Black lister'][
+            Math.floor(Math.random() * 4)
+          ], // aléatoire
+        };
+      });
+
+      const completedClients = await Promise.all(clientPromises);
+      console.log(completedClients);
+      setTableFetchedData(completedClients);
+    } catch (error) {
+      console.error('Erreur lors des recommandations :', error);
+    }
+  };
 
   if (loading) return <Loader />;
   if (!house) return <div>Maison introuvable ou erreur d’accès.</div>;
@@ -133,25 +169,23 @@ const HouseDetails = () => {
       <Title>{house.titre}</Title>
       <h4>{house.region}</h4>
       <div className="grid-galery">
-        <div className="grid-galery">
-          {(house.images || []).slice(0, 5).map((img, index) => {
-            const fixedUrl = `${
-              process.env.NEXT_PUBLIC_IMG_BASE_URL
-            }${img.replace(/\\/g, '/')}`;
-            return (
-              <img
-                key={index}
-                src={fixedUrl}
-                className="grid-img"
-                alt={`image-${index}`}
-              />
-            );
-          })}
+        {(house.images || []).slice(0, 5).map((img, index) => {
+          const fixedUrl = `${
+            process.env.NEXT_PUBLIC_IMG_BASE_URL
+          }${img.replace(/\\/g, '/')}`;
+          return (
+            <img
+              key={index}
+              src={fixedUrl}
+              className="grid-img"
+              alt={`image-${index}`}
+            />
+          );
+        })}
 
-          {Array.from({ length: missingCount }).map((_, i) => (
-            <img src="/images/eg-img.jpg" className="grid-img" key={i} />
-          ))}
-        </div>
+        {Array.from({ length: missingCount }).map((_, i) => (
+          <img src="/images/eg-img.jpg" className="grid-img" key={i} />
+        ))}
       </div>
       <h6 style={{ fontWeight: 300, fontSize: 15 }}>Wassim pro</h6>
       <h5 style={{ fontWeight: 300, fontSize: '18px', whiteSpace: 'pre-line' }}>
@@ -187,8 +221,8 @@ const HouseDetails = () => {
       <h2 className="client">Client potentiel </h2>
       <Table
         tr={headers}
-        td={tableData.map((row) => [
-          { text: row.client },
+        td={(tableFetchedData || []).map((row: any) => [
+          { text: row.fullName },
           { text: row.telephone },
           { text: row.budget },
           { text: row.statut },

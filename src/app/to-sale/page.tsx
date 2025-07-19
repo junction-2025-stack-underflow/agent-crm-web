@@ -1,13 +1,26 @@
 'use client';
 import Title from '@/components/Title/Title';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { FiBell, FiGrid, FiMenu, FiPlus } from 'react-icons/fi';
 import './Tosale.css';
 import HouseCard from '@/components/HouseCard/HouseCard';
 import { useRouter } from 'next/navigation';
+import { getAllHouses } from '@/api/house';
+import { IHouse } from '@/utils/types/house.types';
 
 const ToSale = () => {
   const router = useRouter();
+  const [houses, setHouses] = useState<IHouse[]>([]);
+
+  useEffect(() => {
+    fetchdata();
+  }, []);
+
+  const fetchdata = async () => {
+    const response = await getAllHouses();
+    setHouses(response.houses);
+    console.log(response);
+  };
 
   const handleAddHouse = () => {
     router.push('/add');
@@ -33,12 +46,9 @@ const ToSale = () => {
         </div>
       </div>
       <div className="houses-container">
-        <HouseCard />
-        <HouseCard />
-        <HouseCard />
-        <HouseCard />
-        <HouseCard />
-        <HouseCard />
+        {houses.map((house: IHouse) => (
+          <HouseCard {...house} />
+        ))}
       </div>
     </div>
   );

@@ -1,8 +1,32 @@
 import HouseCard from '@/components/HouseCard/HouseCard';
 import Title from '@/components/Title/Title';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import './ClientDetails.css';
+import { getClientById } from '@/api/client';
+import { useParams } from 'next/navigation';
 const ClientDetails = () => {
+  const { id } = useParams<{ id: string }>();
+  const [house, setHouse] = useState<any>(null);
+  const [loading, setLoading] = useState(true);
+  useEffect(() => {
+    if (id) {
+      fetchData();
+    }
+  }, [id]);
+
+  const fetchData = async () => {
+    await getClientById(id)
+      .then(async (data) => {
+        console.log(data);
+        setHouse(data.house);
+      })
+      .catch((err) => {
+        console.error('Failed to load house:', err);
+        // Optional: Handle errors or show fallback
+      })
+      .finally(() => setLoading(false));
+  };
+
   return (
     <div
       style={{
