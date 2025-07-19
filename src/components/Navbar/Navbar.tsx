@@ -34,7 +34,13 @@ export default function Navbar() {
     <>
       <nav>
         <button className="action-btn">
-          <Image src={'/logo.svg'} width={20} height={20} alt="houseek logo" />
+          <Image
+            src={'/logo.svg'}
+            width={20}
+            height={20}
+            alt="houseek logo"
+            className="logo"
+          />
         </button>
         {pathname !== '/add' && (
           <ul>

@@ -153,3 +153,10 @@ input:focus {
   align-items: center;
   justify-content: space-between;
 }
+
+@media screen and (max-width: 769px) {
+  .action-btn {
+    width: 35px;
+    height: 35px;
+  }
+}

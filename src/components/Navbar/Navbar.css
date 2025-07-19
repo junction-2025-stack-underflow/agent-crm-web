@@ -83,3 +83,17 @@ nav .status-bar {
   grid-template-columns: repeat(3, 1fr);
   gap: 10px;
 }
+
+@media screen and (max-width: 768px) {
+  nav {
+    padding-inline: 40px;
+  }
+  nav ul li a {
+    font-size: 12px;
+  }
+  nav .action-btn .logo,
+  nav svg {
+    width: 15px;
+    height: 15px;
+  }
+}
